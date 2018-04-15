@@ -1,11 +1,13 @@
 package com;
 
+import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import com.constants.Constants;
 import com.dao.PersonDAO;
 import com.dao.PersonDAOImpl;
 import com.model.Person;
+import com.view.MainWindow;
 
 
 public class StartApp {
@@ -18,13 +20,12 @@ public class StartApp {
 		
 		LOG.info("Initializing the application...");
 		
-		/*SwingUtilities.invokeLater(new Runnable() {
+		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				// create of the class that need to be instantiated
-				
-				//new MainFrame();
+				new MainWindow();
 			}
-		});	*/
+		});	
 		
 		Person p1 = new Person(1, "A", "B", 15, "ab@gmail.com", "VNS");
 		Person p2 = new Person(2, "Aa", "Bb", 20, "Aabb@gmail.com", "AGRA");

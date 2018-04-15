@@ -6,39 +6,28 @@ import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.border.EtchedBorder;
+import org.apache.log4j.Logger;
+import com.StartApp;
 
-public class MainWindow {
 
+public class MainWindow extends JFrame{
+
+	final static Logger LOG = Logger.getLogger(MainWindow.class);
+	
 	private JFrame frame;
 	private JTextField textFieldUpdate;
 	private JTextField textFieldCreate;
 	private JTable DetailsTable;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainWindow window = new MainWindow();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
 	public MainWindow() {
 		initialize();
 	}
@@ -47,10 +36,11 @@ public class MainWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 623, 471);
+		frame = new JFrame("CURD Operation");
+		frame.setBounds(300, 300, 623, 471);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		frame.setVisible(true);
 		
 		JButton btnCreate = new JButton("Create");
 		btnCreate.setBounds(10, 11, 89, 23);
@@ -86,5 +76,33 @@ public class MainWindow {
 		DetailsTable.setBorder(new EtchedBorder(EtchedBorder.RAISED, null, null));
 		DetailsTable.setBounds(10, 417, 570, -220);
 		frame.getContentPane().add(DetailsTable);
+		
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter()
+        {
+            public void windowClosing(WindowEvent ev)
+            {
+                LOG.debug("WindowEvent on " + ev.paramString());
+
+                if (confirmBeforeExit())
+                {
+                    System.exit(0);
+                }
+            }
+        });
 	}
+	
+	 public boolean confirmBeforeExit()
+	    {
+		 	LOG.debug("Display confirm dialog...");
+
+	        if (JOptionPane.showConfirmDialog(this, "YES", "NO", JOptionPane.YES_NO_OPTION) == 0)
+	        {
+	        	LOG.debug("User answer YES.");
+	            return true;
+	        }
+
+	        LOG.debug("User answer NO.");
+	        return false;
+	    }
 }
