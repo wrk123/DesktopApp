@@ -1,8 +1,14 @@
 package com;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.Properties;
+
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+
+import com.config.Database;
 import com.constants.Constants;
 import com.dao.PersonDAO;
 import com.dao.PersonDAOImpl;
@@ -16,7 +22,7 @@ public class StartApp {
 	
 	public static void main(String[] args) {
 		
-		PropertyConfigurator.configure(Constants.CommonConfigs.LOG4JCONFIG);
+		PropertyConfigurator.configure(loadConfigs().toString());
 		
 		LOG.info("Initializing the application...");
 		
@@ -27,6 +33,35 @@ public class StartApp {
 			}
 		});	
 		
+		//test();
+		
+	}
+	
+	private static String loadConfigs(){
+		Properties prop = new Properties();
+		InputStream input = null;
+		String jdbcDriver="", userName="", password="", url="",logFile="";
+
+		try{
+			input = new FileInputStream("src/com/resources/application.properties");
+			prop.load(input);
+			url = prop.getProperty("database.url");
+			jdbcDriver = prop.getProperty("database.driver");
+			userName = prop.getProperty("database.username");
+			password = prop.getProperty("database.password");
+			logFile = prop.getProperty("log4j.filepath");
+			
+			System.out.println("---- Fetched properties are ----" + url + "," + jdbcDriver + "," + userName + ","  + password + "," + logFile);
+			
+			new Database(jdbcDriver, userName, password, url);
+			
+		}catch(Exception e){
+			System.out.println("#### Exception occurred while reading application properties file. ####" + e);
+		}
+		return logFile;
+	}
+	
+	private static void test(){
 		Person p1 = new Person(1, "A", "B", 15, "ab@gmail.com", "VNS");
 		Person p2 = new Person(2, "Aa", "Bb", 20, "Aabb@gmail.com", "AGRA");
 		Person p3 = new Person(3, "Aaa", "Bbb", 25, "AaaBbb@gmail.com", "Meerut");
@@ -49,6 +84,5 @@ public class StartApp {
 		}catch(Exception e){
 			LOG.error("--- CANNOT SAVE THE DETAILS---" + e);
 		}
-		
 	}
 }
