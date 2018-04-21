@@ -1,11 +1,8 @@
 package com.config;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import org.apache.log4j.Logger;
-import com.constants.Constants;
 
 public class Database {
 

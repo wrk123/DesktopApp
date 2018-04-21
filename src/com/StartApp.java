@@ -3,13 +3,10 @@ package com;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
-
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
-
 import com.config.Database;
-import com.constants.Constants;
 import com.dao.PersonDAO;
 import com.dao.PersonDAOImpl;
 import com.model.Person;
@@ -50,8 +47,6 @@ public class StartApp {
 			userName = prop.getProperty("database.username");
 			password = prop.getProperty("database.password");
 			logFile = prop.getProperty("log4j.filepath");
-			
-			System.out.println("---- Fetched properties are ----" + url + "," + jdbcDriver + "," + userName + ","  + password + "," + logFile);
 			
 			new Database(jdbcDriver, userName, password, url);
 			
