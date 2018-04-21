@@ -5,12 +5,12 @@ import java.io.InputStream;
 import java.util.Properties;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import com.config.Database;
 import com.dao.PersonDAO;
 import com.dao.PersonDAOImpl;
 import com.model.Person;
 import com.view.MainWindow;
+import org.apache.log4j.PropertyConfigurator;
 
 
 public class StartApp {
@@ -51,7 +51,7 @@ public class StartApp {
 			new Database(jdbcDriver, userName, password, url);
 			
 		}catch(Exception e){
-			System.out.println("#### Exception occurred while reading application properties file. ####" + e);
+			LOG.error("#### Exception occurred while reading application properties file. ####" + e);
 		}
 		return logFile;
 	}
@@ -77,7 +77,7 @@ public class StartApp {
 			System.out.println("----- Fetch all completed -----------");
 			
 		}catch(Exception e){
-			LOG.error("--- CANNOT SAVE THE DETAILS---" + e);
+			LOG.error("#### CANNOT SAVE THE DETAILS ####" + e);
 		}
 	}
 }
